@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="jar" name="kflux-jvm-0.1">
-    <output-path>$PROJECT_DIR$/build/libs</output-path>
-    <root id="archive" name="kflux-jvm-0.1.jar">
-      <element id="module-output" name="kflux.jvmMain" />
-    </root>
-  </artifact>
-</component>
