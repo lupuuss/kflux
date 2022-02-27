@@ -1,13 +1,12 @@
 package com.github.lupuuss.kflux.core.store.builder
 
 import com.github.lupuuss.kflux.core.Reducer
-import com.github.lupuuss.kflux.core.context.DispatchContext
 import com.github.lupuuss.kflux.core.store.Store
 import com.github.lupuuss.kflux.core.store.StoreImpl
 import kotlin.experimental.ExperimentalTypeInference
 
 @DslMarker
-annotation class BuildStoreDsl
+annotation class StoreBuilderDsl
 
 @OptIn(ExperimentalTypeInference::class)
 fun <State : Any> buildStore(@BuilderInference block: StoreBuilderScope<State>.() -> Unit): Store<State> {
@@ -18,13 +17,13 @@ fun <State : Any> buildStore(@BuilderInference block: StoreBuilderScope<State>.(
 
 interface StoreBuilderScope<State : Any> {
 
-    @BuildStoreDsl
+    @StoreBuilderDsl
     fun middlewares(block: MiddlewaresBuilderScope<State>.() -> Unit)
 
-    @BuildStoreDsl
+    @StoreBuilderDsl
     fun context(block: ContextBuilderScope.() -> Unit)
 
-    @BuildStoreDsl
+    @StoreBuilderDsl
     infix fun State.reducedBy(reducer: Reducer<State>)
 }
 
