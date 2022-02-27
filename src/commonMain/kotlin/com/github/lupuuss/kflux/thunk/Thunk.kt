@@ -9,11 +9,11 @@ import kotlin.coroutines.EmptyCoroutineContext
 @Suppress("UNCHECKED_CAST")
 sealed interface Thunk : Action {
 
-    sealed interface CoreExecutable : Thunk {
+    interface CoreExecutable : Thunk {
         fun DispatchScope<*>.execute()
     }
 
-    sealed interface CoreSuspendable : Thunk {
+    interface CoreSuspendable : Thunk {
         val coroutineStart: CoroutineStart
         val coroutineContext: CoroutineContext
 
