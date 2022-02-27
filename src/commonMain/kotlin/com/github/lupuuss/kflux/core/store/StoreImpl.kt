@@ -21,9 +21,9 @@ internal class StoreImpl<State : Any>(
     override fun dispatch(action: Action) {
         var status = Middleware.Status.Passed
         for (middleware in middlewares) {
-            status = with(middleware) { scope.process(action) }
+            status = middleware.run { scope.process(action) }
             if (status == Middleware.Status.Consumed) break
         }
-        if (status == Middleware.Status.Passed) state.value = reducer.invoke(state.value, action)
+        if (status == Middleware.Status.Passed) state.value = reducer(state.value, action)
     }
 }
