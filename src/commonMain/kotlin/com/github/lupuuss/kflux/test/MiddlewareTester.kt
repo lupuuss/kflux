@@ -5,7 +5,7 @@ import com.github.lupuuss.kflux.core.context.DispatchContext
 import com.github.lupuuss.kflux.core.context.EmptyDispatchContext
 import com.github.lupuuss.kflux.core.middleware.Middleware
 
-class MiddlewareTester<State : Any>(
+class MiddlewareTester<State>(
     val scope: TestDispatchScope<State>,
     val sut: Middleware<State>
 ) {

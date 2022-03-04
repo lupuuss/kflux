@@ -9,13 +9,13 @@ import kotlin.experimental.ExperimentalTypeInference
 annotation class StoreBuilderDsl
 
 @OptIn(ExperimentalTypeInference::class)
-fun <State : Any> buildStore(@BuilderInference block: StoreBuilderScope<State>.() -> Unit): Store<State> {
+fun <State> buildStore(@BuilderInference block: StoreBuilderScope<State>.() -> Unit): Store<State> {
     val builder = StoreBuilder<State>()
     builder.block()
     return builder.build()
 }
 
-interface StoreBuilderScope<State : Any> {
+interface StoreBuilderScope<State> {
 
     @StoreBuilderDsl
     fun middlewares(block: MiddlewaresBuilderScope<State>.() -> Unit)
@@ -27,7 +27,7 @@ interface StoreBuilderScope<State : Any> {
     infix fun State.reducedBy(reducer: Reducer<State>)
 }
 
-internal class StoreBuilder<State : Any> : StoreBuilderScope<State> {
+internal class StoreBuilder<State> : StoreBuilderScope<State> {
 
     private val middlewareBuilder = MiddlewaresBuilder<State>()
     private val contextBuilder = ContextBuilder()

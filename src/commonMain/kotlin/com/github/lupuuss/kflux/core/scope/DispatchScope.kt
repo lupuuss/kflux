@@ -6,7 +6,7 @@ import com.github.lupuuss.kflux.core.Dispatcher
 import com.github.lupuuss.kflux.core.context.DispatchContext
 import com.github.lupuuss.kflux.core.middleware.Middleware
 
-interface DispatchScope<State : Any> : Dispatcher {
+interface DispatchScope<State> : Dispatcher {
     val dispatchContext: DispatchContext
 
     val state: State

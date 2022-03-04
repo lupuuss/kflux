@@ -3,7 +3,7 @@ package com.github.lupuuss.kflux.norm
 import com.github.lupuuss.kflux.core.scope.DispatchScope
 import com.github.lupuuss.kflux.thunk.Thunk
 
-data class NormalizeEntities<State : Any, Id : Any, Complete : Entity<Id>, Normalized : Entity<Id>>(
+data class NormalizeEntities<State, Id : Any, Complete : Entity<Id>, Normalized : Entity<Id>>(
     val descriptor: EntityDescriptor<State, Id, Complete, Normalized>,
     val entities: List<Complete>
 ) : Thunk.CoreExecutable {

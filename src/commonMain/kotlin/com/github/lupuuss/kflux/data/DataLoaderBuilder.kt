@@ -6,7 +6,7 @@ import kotlinx.coroutines.CoroutineStart
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext
 
-fun <Data, State : Any> dataLoader(
+fun <Data, State> dataLoader(
     onSuccess: (Data) -> Action,
     onError: (Throwable) -> Action,
     onStart: () -> Action? = { null },

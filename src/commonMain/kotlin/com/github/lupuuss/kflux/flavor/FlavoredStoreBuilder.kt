@@ -4,7 +4,7 @@ import com.github.lupuuss.kflux.core.store.builder.*
 import kotlin.experimental.ExperimentalTypeInference
 
 @OptIn(ExperimentalTypeInference::class)
-fun <Flavor : StoreFlavor, State : Any> buildFlavoredStore(
+fun <Flavor : StoreFlavor, State> buildFlavoredStore(
     flavor: Flavor,
     @BuilderInference block: FlavoredStoreBuilderScope<Flavor, State>.() -> Unit
 ) = buildStore {
@@ -12,11 +12,11 @@ fun <Flavor : StoreFlavor, State : Any> buildFlavoredStore(
     FlavoredStoreBuilder(this, flavor).apply(block)
 }
 
-interface FlavoredStoreBuilderScope<Flavor : StoreFlavor, State : Any> : StoreBuilderScope<State> {
+interface FlavoredStoreBuilderScope<Flavor : StoreFlavor, State> : StoreBuilderScope<State> {
     val flavor: Flavor
 }
 
-internal class FlavoredStoreBuilder<Flavor : StoreFlavor, State : Any>(
+internal class FlavoredStoreBuilder<Flavor : StoreFlavor, State>(
     outerStoreBuilder: StoreBuilderScope<State>,
     override val flavor: Flavor,
 ) : FlavoredStoreBuilderScope<Flavor, State>, StoreBuilderScope<State> by outerStoreBuilder

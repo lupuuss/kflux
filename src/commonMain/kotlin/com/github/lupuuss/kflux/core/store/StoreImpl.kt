@@ -8,7 +8,7 @@ import com.github.lupuuss.kflux.core.context.DispatchContext
 import com.github.lupuuss.kflux.core.scope.CoreDispatchScope
 import kotlinx.coroutines.flow.MutableStateFlow
 
-internal class StoreImpl<State : Any>(
+internal class StoreImpl<State>(
     initialState: State,
     private val reducer: Reducer<State>,
     private val middlewares: List<Middleware<State>> = emptyList(),

@@ -5,7 +5,7 @@ import com.github.lupuuss.kflux.core.scope.DispatchScope
 import com.github.lupuuss.kflux.core.scope.consume
 import com.github.lupuuss.kflux.core.scope.pass
 
-inline fun <reified T : Action, State : Any> consumingMiddleware(
+inline fun <reified T : Action, State> consumingMiddleware(
     crossinline block: DispatchScope<State>.(T) -> Unit
 ) = Middleware<State> {
     if (it !is T) pass() else {
@@ -14,7 +14,7 @@ inline fun <reified T : Action, State : Any> consumingMiddleware(
     }
 }
 
-inline fun <State : Any> translucentMiddleware(
+inline fun <State> translucentMiddleware(
     crossinline block: DispatchScope<State>.(Action) -> Unit
 ) = Middleware<State> {
     block(it)

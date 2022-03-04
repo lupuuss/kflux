@@ -8,7 +8,7 @@ import kotlinx.coroutines.CoroutineStart
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext
 
-abstract class DataLoader<Data, State : Any>(
+abstract class DataLoader<Data, State>(
     coroutineContext: CoroutineContext = EmptyCoroutineContext,
     coroutineStart: CoroutineStart = CoroutineStart.DEFAULT,
 ) : Thunk.Suspendable<State>(coroutineContext, coroutineStart) {

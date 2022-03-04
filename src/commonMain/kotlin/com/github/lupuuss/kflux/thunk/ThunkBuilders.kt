@@ -5,11 +5,11 @@ import kotlinx.coroutines.CoroutineStart
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext
 
-fun <State : Any> thunkExec(block: DispatchScope<State>.() -> Unit) = object : Thunk.Executable<State>() {
+fun <State> thunkExec(block: DispatchScope<State>.() -> Unit) = object : Thunk.Executable<State>() {
     override fun DispatchScope<State>.onExecute() = block()
 }
 
-fun <State : Any> thunkSuspend(
+fun <State> thunkSuspend(
     coroutineContext: CoroutineContext = EmptyCoroutineContext,
     coroutineStart: CoroutineStart = CoroutineStart.DEFAULT,
     block: suspend DispatchScope<State>.() -> Unit

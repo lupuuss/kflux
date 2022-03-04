@@ -20,14 +20,14 @@ sealed interface Thunk : Action {
         suspend fun DispatchScope<*>.executeSuspendable()
     }
 
-    abstract class Executable<State : Any> : CoreExecutable {
+    abstract class Executable<State> : CoreExecutable {
 
         final override fun DispatchScope<*>.execute() = (this as DispatchScope<State>).onExecute()
 
         abstract fun DispatchScope<State>.onExecute()
     }
 
-    abstract class Suspendable<State : Any>(
+    abstract class Suspendable<State>(
         override val coroutineContext: CoroutineContext = EmptyCoroutineContext,
         override val coroutineStart: CoroutineStart = CoroutineStart.DEFAULT
     ) : CoreSuspendable {

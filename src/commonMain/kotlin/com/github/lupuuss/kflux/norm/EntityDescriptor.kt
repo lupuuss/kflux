@@ -2,7 +2,7 @@ package com.github.lupuuss.kflux.norm
 
 import com.github.lupuuss.kflux.core.Action
 
-interface EntityDescriptor<State : Any, Id : Any, Complete : Entity<Id>, Normalized : Entity<Id>> {
+interface EntityDescriptor<State, Id : Any, Complete : Entity<Id>, Normalized : Entity<Id>> {
 
     val dependencies: List<Dependency<Complete, State, *, *, *>>
 
@@ -24,12 +24,12 @@ interface EntityDescriptor<State : Any, Id : Any, Complete : Entity<Id>, Normali
         .map { it.denormalizeUsing(state) }
 }
 
-interface PureEntityDescriptor<State : Any, Id : Any, E : Entity<Id>> : EntityDescriptor<State, Id, E, E> {
+interface PureEntityDescriptor<State, Id : Any, E : Entity<Id>> : EntityDescriptor<State, Id, E, E> {
     override val dependencies: List<Dependency<E, State, *, *, *>> get() = emptyList()
     override fun E.denormalizeUsing(state: State): E = this
 }
 
-data class Dependency<CompleteParent : Any, State : Any, Id : Any, Complete : Entity<Id>, Normalized : Entity<Id>>(
+data class Dependency<CompleteParent : Any, State, Id : Any, Complete : Entity<Id>, Normalized : Entity<Id>>(
     val descriptor: EntityDescriptor<State, Id, Complete, Normalized>,
     val extractFromParent: CompleteParent.() -> List<Complete>,
 ) {
