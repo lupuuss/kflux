@@ -8,5 +8,5 @@ fun <State> logMiddleware(
     formatter: LogFormatter = LogFormatter.withToString("KFlux-Log >> "),
     adapter: LogBusAdapter = LogBusAdapter.systemOut(),
 ) = translucentMiddleware<State> { action ->
-    if (filter.filter(action)) adapter.log(formatter.format(action))
+    if (filter.filter(action)) adapter.log(action, formatter.format(action))
 }

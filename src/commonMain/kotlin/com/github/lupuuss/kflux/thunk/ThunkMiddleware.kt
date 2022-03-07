@@ -6,9 +6,15 @@ import kotlinx.coroutines.launch
 
 fun <State> thunkMiddleware() = consumingMiddleware<Thunk, State> { thunk ->
     when (thunk) {
-        is Thunk.CoreExecutable -> thunk.run { execute() }
-        is Thunk.CoreSuspendable -> coroutineScope.launch(thunk.coroutineContext, thunk.coroutineStart) {
-            thunk.run { executeSuspendable() }
+        is Thunk.Executable<*> -> thunk.cast<State>().run { execute() }
+        is Thunk.Suspendable<*> -> coroutineScope.launch(thunk.coroutineContext, thunk.coroutineStart) {
+            thunk.cast<State>().run { executeSuspendable() }
         }
     }
 }
+
+@Suppress("UNCHECKED_CAST")
+private inline fun <State> Thunk.Executable<*>.cast() = this as Thunk.Executable<State>
+
+@Suppress("UNCHECKED_CAST")
+private inline fun <State> Thunk.Suspendable<*>.cast() = this as Thunk.Suspendable<State>

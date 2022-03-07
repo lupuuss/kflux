@@ -23,7 +23,7 @@ abstract class DataLoader<Data, State>(
 
     open fun onFinish(): Action? = null
 
-    final override suspend fun DispatchScope<State>.onExecuteSuspendable() {
+    override suspend fun DispatchScope<State>.executeSuspendable() {
         onStart()
         runCatching { load() }
             .also { onFinish() }
