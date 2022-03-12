@@ -12,7 +12,7 @@ internal class Timeline(override val actions: List<Action>) : TimelineScope {
         get() = timelineStatus()
 
     override fun actionThat(message: String?, predicate: (Action) -> Boolean) {
-        val current = getCurrent()
+        val current = assertCurrent()
         assertTrue(predicate(current), message ?: "Action $current doesn't match the predicate! $timelineStatus")
         processNextAction()
     }
@@ -23,10 +23,10 @@ internal class Timeline(override val actions: List<Action>) : TimelineScope {
         }
     }
 
-    private fun getCurrent(): Action = assertNotNull(current, "Unexpected end of timeline! $timelineStatus")
+    private fun assertCurrent(): Action = assertNotNull(current, "Unexpected end of timeline! $timelineStatus")
 
     private fun processNextAction() {
-        getCurrent()
+        assertCurrent()
         current = iterator.nextOrNull()
     }
 
