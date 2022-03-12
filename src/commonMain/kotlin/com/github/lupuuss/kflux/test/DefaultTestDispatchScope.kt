@@ -14,5 +14,5 @@ data class DefaultTestDispatchScope<State>(
         actions.add(action)
     }
 
-    override fun cloned(state: State, context: DispatchContext) = copy(state = state, dispatchContext = context)
+    override fun cloned(state: State, context: DispatchContext) = copy(state = state, dispatchContext = dispatchContext + context)
 }

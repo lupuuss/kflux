@@ -9,5 +9,5 @@ interface TimelineScope {
 
     fun actionThat(message: String? = null, predicate: (Action) -> Boolean)
 
-    fun skip(count: Int)
+    fun skipWhile(predicate: (Action?) -> Boolean)
 }

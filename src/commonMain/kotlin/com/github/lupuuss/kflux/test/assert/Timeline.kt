@@ -4,7 +4,7 @@ import com.github.lupuuss.kflux.core.Action
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
-class Timeline(override val actions: List<Action>) : TimelineScope {
+internal class Timeline(override val actions: List<Action>) : TimelineScope {
 
     private val iterator = actions.listIterator()
     override var current: Action? = iterator.nextOrNull()
@@ -12,17 +12,21 @@ class Timeline(override val actions: List<Action>) : TimelineScope {
         get() = timelineStatus()
 
     override fun actionThat(message: String?, predicate: (Action) -> Boolean) {
-        val current = current
-        assertNotNull(current, "Unexpected end of timeline! $timelineStatus")
+        val current = getCurrent()
         assertTrue(predicate(current), message ?: "Action $current doesn't match the predicate! $timelineStatus")
         processNextAction()
     }
 
-    override fun skip(count: Int) {
-        repeat(count) { processNextAction() }
+    override fun skipWhile(predicate: (Action?) -> Boolean) {
+        while(predicate(current)) {
+            processNextAction()
+        }
     }
 
+    private fun getCurrent(): Action = assertNotNull(current, "Unexpected end of timeline! $timelineStatus")
+
     private fun processNextAction() {
+        getCurrent()
         current = iterator.nextOrNull()
     }
 
