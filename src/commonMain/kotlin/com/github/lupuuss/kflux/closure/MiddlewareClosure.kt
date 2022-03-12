@@ -9,7 +9,8 @@ import kotlin.experimental.ExperimentalTypeInference
 fun <State> middlewareClosure(@BuilderInference block: DispatchScope<State>.() -> Middleware<State>): Middleware<State> {
     var currentMiddleware: Middleware<State>
     val initMiddleware = translucentMiddleware<State> {
-        currentMiddleware = block().apply { process(it) }
+        currentMiddleware = block()
+        currentMiddleware.apply { process(it) }
     }
     currentMiddleware = initMiddleware
     return Middleware { currentMiddleware.run { process(it) } }
