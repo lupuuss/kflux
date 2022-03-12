@@ -4,7 +4,7 @@ interface DispatchContext {
 
     fun <T : Element> find(key: Key<T>): T?
 
-    operator fun <T : Element> get(key: Key<T>): T = find(key) ?: throw MissingContextElement(key)
+    operator fun <T : Element> get(key: Key<T>): T = find(key) ?: throw MissingContextElementException(key)
 
     operator fun plus(context: DispatchContext): DispatchContext {
         val incomingElements = context.split()
@@ -20,7 +20,7 @@ interface DispatchContext {
         @Suppress("UNCHECKED_CAST")
         override fun <T : Element> find(key: Key<T>): T? = if (this.key == key) this as T else null
 
-        override fun <T : Element> get(key: Key<T>): T = find(key) ?: throw MissingContextElement(key)
+        override fun <T : Element> get(key: Key<T>): T = find(key) ?: throw MissingContextElementException(key)
 
         override fun split(): List<Element> = listOf(this)
     }
@@ -28,6 +28,6 @@ interface DispatchContext {
     interface Key<T : Element>
 }
 
-internal class MissingContextElement(
+internal class MissingContextElementException(
     key: DispatchContext.Key<*>
 ) : IllegalStateException("Element with a key=${key} is not part of a dispatch context!")
