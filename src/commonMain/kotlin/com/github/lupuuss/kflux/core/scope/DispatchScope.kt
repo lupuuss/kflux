@@ -2,16 +2,11 @@
 
 package com.github.lupuuss.kflux.core.scope
 
-import com.github.lupuuss.kflux.core.Dispatcher
+import com.github.lupuuss.kflux.core.ActionDispatcher
 import com.github.lupuuss.kflux.core.context.DispatchContext
-import com.github.lupuuss.kflux.core.middleware.Middleware
 
-interface DispatchScope<State> : Dispatcher {
+interface DispatchScope<State> : ActionDispatcher {
     val dispatchContext: DispatchContext
 
     val state: State
 }
-
-inline fun DispatchScope<*>.consume() = Middleware.Status.Consumed
-
-inline fun DispatchScope<*>.pass() = Middleware.Status.Passed
