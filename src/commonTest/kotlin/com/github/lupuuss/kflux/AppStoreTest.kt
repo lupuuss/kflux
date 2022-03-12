@@ -1,5 +1,6 @@
 package com.github.lupuuss.kflux
 
+import com.github.lupuuss.kflux.core.Action
 import com.github.lupuuss.kflux.task.TaskAction
 import com.github.lupuuss.kflux.thunk.thunkSuspend
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -14,6 +15,7 @@ class AppStoreTest {
     @Test
     fun test() = runTest {
         val store = appStore(this)
+        store.dispatch(object : Action {})
         store.dispatch(TaskAction.Load)
         advanceUntilIdle()
         val anonymousThunk = thunkSuspend<AppState> {
