@@ -14,7 +14,7 @@ fun TimelineScope.actionEquals(action: Action) {
 
 fun TimelineScope.skip(count: Int) {
     var counter = 0
-    skipWhile { ++counter != count }
+    skipWhile { counter++ != count }
 }
 
 fun TimelineScope.skipOthers() {
