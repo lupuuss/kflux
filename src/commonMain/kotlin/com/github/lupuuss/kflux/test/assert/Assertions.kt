@@ -15,9 +15,13 @@ fun ActionsAssertScope.expectSingle(
 }
 
 inline fun <reified T : Action> ActionsAssertScope.expectSingleOfType(noinline checks: (T.() -> Unit)? = null) {
-    val action = expectSingle("Expected single action of type ${T::class.simpleName}! $actions") { it is T }
+    val action = expectSingle("Expected single action of type ${T::class.simpleName}! $actionsStatus") { it is T }
     checks ?: return
     checks(action as T)
+}
+
+inline fun ActionsAssertScope.expectSingleEquals(action: Action) {
+    expectSingle("Expected single action to by equal to $action! $actionsStatus") { it == action }
 }
 
 fun ActionsAssertScope.expectAny(
@@ -45,4 +49,5 @@ fun ActionsAssertScope.expectTimeline(block: TimelineScope.() -> Unit) {
     }
 }
 
-val ActionsAssertScope.actionsStatus get() = "Actual actions >> Count: ${actions.size}; Values: $actions;"
+val ActionsAssertScope.actionsStatus
+    get() = "Actual actions >> Count: ${actions.size}; Values: [\n" + actions.joinToString("\n") { "\t$it" } + "\n]"
