@@ -37,6 +37,10 @@ inline fun <reified T : Action> ActionsAssertScope.expectAnyOfType(noinline chec
     checks(action as T)
 }
 
+fun ActionsAssertScope.expectAnyEquals(action: Action) {
+    expectAny("Expected any action equals to $action! $actionsStatus") { it == action }
+}
+
 fun ActionsAssertScope.expectNone() {
     assertTrue(actions.isEmpty(), "Expected no emissions! $actionsStatus")
 }
