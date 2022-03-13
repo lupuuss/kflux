@@ -7,6 +7,7 @@ import com.github.lupuuss.kflux.test.ActionsAssertScope
 import com.github.lupuuss.kflux.test.DefaultTestDispatchScope
 import com.github.lupuuss.kflux.test.TestDispatchScope
 import com.github.lupuuss.kflux.thunk.Thunk
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 fun <State> Middleware<State>.tester(
     state: State,
@@ -39,3 +40,11 @@ suspend fun <State> Thunk.Suspendable<State>.test(
     scope: TestDispatchScope<State> = DefaultTestDispatchScope(state, context),
     checks: ActionsAssertScope.() -> Unit,
 ) = ThunkSuspendableTester(scope, this).test(checks = checks)
+
+@ExperimentalCoroutinesApi
+fun <State> Thunk.Suspendable<State>.coroutineTest(
+    state: State,
+    context: DispatchContext = EmptyDispatchContext,
+    scope: TestDispatchScope<State> = DefaultTestDispatchScope(state, context),
+    checks: ActionsAssertScope.() -> Unit,
+) = ThunkSuspendableTester(scope, this).coroutineTest(state, context, checks)
