@@ -2,6 +2,7 @@ package com.github.lupuuss.kflux.task
 
 import com.github.lupuuss.kflux.AppState
 import com.github.lupuuss.kflux.DateProvider
+import com.github.lupuuss.kflux.combine.plus
 import com.github.lupuuss.kflux.data.DataSourceFactory
 import com.github.lupuuss.kflux.data.DataSourceLoader
 import com.github.lupuuss.kflux.kodein.di
@@ -19,7 +20,7 @@ object TaskAction {
     object Load : DataSourceLoader<Unit, List<Task>>(
         request = Unit,
         dataSource = DataSourceFactory::tasks,
-        onSuccess = TaskStateAction::SetAll,
+        onSuccess = { TaskStateAction.SetAll(it) + Complete(it.first().id) },
     )
 }
 
