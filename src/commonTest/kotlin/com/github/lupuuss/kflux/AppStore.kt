@@ -1,9 +1,11 @@
 package com.github.lupuuss.kflux
 
+import com.github.lupuuss.kflux.core.context.element.DispatchCoroutineScope
 import com.github.lupuuss.kflux.core.store.builder.buildStore
 import com.github.lupuuss.kflux.data.DataSourceFactory
 import com.github.lupuuss.kflux.kodein.KodeinDI
 import com.github.lupuuss.kflux.thunk.thunkMiddleware
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
@@ -11,7 +13,7 @@ import org.kodein.di.DI
 import org.kodein.di.bindSingleton
 
 
-fun appStore() = buildStore {
+fun appStore(scope: CoroutineScope) = buildStore {
     AppState() reducedBy ::appReducer
     middlewares {
         +debugMiddleware()
@@ -20,6 +22,7 @@ fun appStore() = buildStore {
 
     context {
         +KodeinDI(buildDi())
+        +DispatchCoroutineScope(scope)
     }
 }
 
