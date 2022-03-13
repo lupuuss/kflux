@@ -4,7 +4,7 @@ import com.github.lupuuss.kflux.core.Action
 import com.github.lupuuss.kflux.core.scope.DispatchScope
 import com.github.lupuuss.kflux.thunk.Thunk
 
-data class CombinedAction(val actions: List<Action>) : Thunk.Executable<Nothing> {
+data class CombinedAction(val actions: List<Action>) : Thunk.Executable<Unit> {
 
-    override fun DispatchScope<Nothing>.execute() = actions.forEach(this::dispatch)
+    override fun DispatchScope<Unit>.execute() = actions.forEach(this::dispatch)
 }

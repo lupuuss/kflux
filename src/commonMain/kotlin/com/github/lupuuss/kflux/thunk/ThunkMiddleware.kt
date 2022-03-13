@@ -14,7 +14,7 @@ fun <State> thunkMiddleware() = consumingMiddleware<Thunk, State> { thunk ->
 }
 
 @Suppress("UNCHECKED_CAST")
-private inline fun <State> Thunk.Executable<*>.cast() = this as Thunk.Executable<State>
+internal inline fun <State> Thunk.Executable<*>.cast() = this as Thunk.Executable<State>
 
 @Suppress("UNCHECKED_CAST")
-private inline fun <State> Thunk.Suspendable<*>.cast() = this as Thunk.Suspendable<State>
+internal inline fun <State> Thunk.Suspendable<*>.cast() = this as Thunk.Suspendable<State>

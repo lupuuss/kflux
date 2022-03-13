@@ -6,9 +6,9 @@ import com.github.lupuuss.kflux.thunk.Thunk
 data class NormalizeEntities<State, Id : Any, Complete : Any, Normalized : Any>(
     val descriptor: EntityDescriptor<State, Id, Complete, Normalized>,
     val entities: List<Complete>
-) : Thunk.Executable<Nothing> {
+) : Thunk.Executable<Unit> {
 
-    override fun DispatchScope<Nothing>.execute() {
+    override fun DispatchScope<Unit>.execute() {
         val normalizedEntities = descriptor.run {
             entities.map { it.normalize() }
         }
