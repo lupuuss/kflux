@@ -38,7 +38,5 @@ data class Dependency<CompleteParent : Any, State, Id : Any, Complete : Any, Nor
     val descriptor: EntityDescriptor<State, Id, Complete, Normalized>,
     val extractFromParent: CompleteParent.() -> List<Complete>,
 ) {
-    fun normalizeExtractingFrom(parent: CompleteParent) = extractFromParent(parent)
-        .map { descriptor.run { it.normalize() } }
-        .let(descriptor::storeNormalized)
+    fun normalizeExtractingFrom(parent: CompleteParent) = NormalizeEntities(descriptor, extractFromParent(parent))
 }
