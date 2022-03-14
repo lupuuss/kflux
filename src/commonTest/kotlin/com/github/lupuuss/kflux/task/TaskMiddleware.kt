@@ -5,6 +5,7 @@ import com.github.lupuuss.kflux.DateProvider
 import com.github.lupuuss.kflux.core.middleware.consumingMiddleware
 import com.github.lupuuss.kflux.kodein.di
 import kotlinx.datetime.LocalDateTime
+import org.kodein.di.instance
 
 fun taskMiddleware() = consumingMiddleware<AppState, TaskAction> { action ->
     when (action) {
