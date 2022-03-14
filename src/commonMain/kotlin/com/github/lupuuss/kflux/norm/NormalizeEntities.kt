@@ -2,13 +2,14 @@ package com.github.lupuuss.kflux.norm
 
 import com.github.lupuuss.kflux.core.scope.DispatchScope
 import com.github.lupuuss.kflux.thunk.Thunk
+import kotlinx.coroutines.Dispatchers
 
 data class NormalizeEntities<State, Id : Any, Complete : Any, Normalized : Any>(
     val descriptor: EntityDescriptor<State, Id, Complete, Normalized>,
     val entities: List<Complete>
-) : Thunk.Executable<Unit> {
+) : Thunk.Suspendable<Unit>(coroutineContext = Dispatchers.Default, nesting = true) {
 
-    override fun DispatchScope<Unit>.execute() {
+    override suspend fun DispatchScope<Unit>.executeSuspendable() {
         val normalizedEntities = descriptor.run {
             entities.map { it.normalize() }
         }

@@ -8,7 +8,7 @@ fun <State> thunkMiddleware() = consumingMiddleware<State, Thunk> { thunk ->
     when (thunk) {
         is Thunk.Executable<*> -> thunk.cast<State>().run { execute() }
         is Thunk.Suspendable<*> -> coroutineScope.launch(thunk.coroutineContext, thunk.coroutineStart) {
-            thunk.cast<State>().run { executeSuspendable() }
+            handleNesting(thunk.cast(), this@consumingMiddleware, this)
         }
     }
 }

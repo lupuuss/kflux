@@ -16,6 +16,7 @@ sealed interface Thunk : Action {
     abstract class Suspendable<State>(
         val coroutineContext: CoroutineContext = EmptyCoroutineContext,
         val coroutineStart: CoroutineStart = CoroutineStart.DEFAULT,
+        val nesting: Boolean = false,
     ) : Thunk {
         abstract suspend fun DispatchScope<State>.executeSuspendable()
     }
@@ -28,7 +29,8 @@ sealed interface Thunk : Action {
         private val block: suspend  DispatchScope<State>.() -> Unit,
         coroutineContext: CoroutineContext = EmptyCoroutineContext,
         coroutineStart: CoroutineStart = CoroutineStart.DEFAULT,
-    ) : Suspendable<State>(coroutineContext, coroutineStart) {
+        nesting: Boolean = false,
+    ) : Suspendable<State>(coroutineContext, coroutineStart, nesting) {
         override suspend fun DispatchScope<State>.executeSuspendable() = block()
     }
 }

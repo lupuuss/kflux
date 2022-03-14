@@ -12,7 +12,12 @@ fun <State> thunkExec(block: DispatchScope<State>.() -> Unit) = object : Thunk.E
 fun <State> thunkSuspend(
     coroutineContext: CoroutineContext = EmptyCoroutineContext,
     coroutineStart: CoroutineStart = CoroutineStart.DEFAULT,
+    nesting: Boolean = false,
     block: suspend DispatchScope<State>.() -> Unit
-) = object : Thunk.Suspendable<State>(coroutineContext, coroutineStart) {
+) = object : Thunk.Suspendable<State>(coroutineContext, coroutineStart, nesting) {
     override suspend fun DispatchScope<State>.executeSuspendable() = block()
 }
+
+infix fun Thunk.chain(thunk: Thunk): Thunk.Suspendable<Unit> = ThunkChain(this.unwrapped() + thunk.unwrapped())
+
+private fun Thunk.unwrapped(): List<Thunk> = if (this is ThunkChain) thunks else listOf(this)
