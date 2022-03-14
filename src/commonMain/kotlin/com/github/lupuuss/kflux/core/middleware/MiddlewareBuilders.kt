@@ -3,7 +3,7 @@ package com.github.lupuuss.kflux.core.middleware
 import com.github.lupuuss.kflux.core.Action
 import com.github.lupuuss.kflux.core.scope.DispatchScope
 
-inline fun <reified T : Action, State> consumingMiddleware(
+inline fun <State, reified T : Action,> consumingMiddleware(
     crossinline block: DispatchScope<State>.(T) -> Unit
 ) = Middleware<State> {
     if (it !is T) pass() else {

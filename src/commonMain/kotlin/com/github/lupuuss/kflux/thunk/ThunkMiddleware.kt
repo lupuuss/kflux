@@ -4,7 +4,7 @@ import com.github.lupuuss.kflux.core.context.element.coroutineScope
 import com.github.lupuuss.kflux.core.middleware.consumingMiddleware
 import kotlinx.coroutines.launch
 
-fun <State> thunkMiddleware() = consumingMiddleware<Thunk, State> { thunk ->
+fun <State> thunkMiddleware() = consumingMiddleware<State, Thunk> { thunk ->
     when (thunk) {
         is Thunk.Executable<*> -> thunk.cast<State>().run { execute() }
         is Thunk.Suspendable<*> -> coroutineScope.launch(thunk.coroutineContext, thunk.coroutineStart) {
