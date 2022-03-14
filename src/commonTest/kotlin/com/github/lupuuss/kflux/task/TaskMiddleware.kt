@@ -6,7 +6,7 @@ import com.github.lupuuss.kflux._legacy._Middleware
 import com.github.lupuuss.kflux.core.middleware.consumingMiddleware
 import kotlinx.datetime.LocalDateTime
 
-fun taskMiddleware(dateProvider: DateProvider) = consumingMiddleware<TaskAction, AppState> { action ->
+fun taskMiddleware(dateProvider: DateProvider) = consumingMiddleware<AppState, TaskAction> { action ->
     when (action) {
         is TaskAction.Complete -> {
             val newTask = state.getTaskById(action.id).copy(isDone = true, modificationDate = dateProvider.get())
