@@ -12,11 +12,11 @@ abstract class BaseViewModel<State>(
         .stateInHere(initialValue = transform(value))
 
     protected fun <T> Flow<T>.stateInHere(
-        started: SharingStarted = SharingStarted.Lazily,
+        started: SharingStarted = SharingStarted.WhileSubscribed(),
         initialValue: T
     ) = stateIn(coroutineScope, started, initialValue)
 
-    protected fun <T> Flow<T>.stateInHere(started: SharingStarted = SharingStarted.Lazily) =
+    protected fun <T> Flow<T>.stateInHere(started: SharingStarted = SharingStarted.WhileSubscribed()) =
         stateIn(coroutineScope, started, null)
 
     protected fun <T> Flow<T>.common() = CFlow(this, coroutineScope)
