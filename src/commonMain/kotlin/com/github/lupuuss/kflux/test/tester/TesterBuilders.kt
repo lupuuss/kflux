@@ -12,39 +12,35 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 fun <State> Middleware<State>.tester(
     state: State,
     context: DispatchContext = EmptyDispatchContext,
-    scope: TestDispatchScope<State> = DefaultTestDispatchScope(state, context)
-) = MiddlewareTester(scope, this)
+) = MiddlewareTester(defaultScope(state, context), this)
 
 fun <State> Thunk.Executable<State>.tester(
     state: State,
     context: DispatchContext = EmptyDispatchContext,
-    scope: TestDispatchScope<State> = DefaultTestDispatchScope(state, context)
-) = ThunkExecutableTester(scope, this)
+) = ThunkExecutableTester(defaultScope(state, context), this)
 
 fun <State> Thunk.Suspendable<State>.tester(
     state: State,
     context: DispatchContext = EmptyDispatchContext,
-    scope: TestDispatchScope<State> = DefaultTestDispatchScope(state, context)
-) = ThunkSuspendableTester(scope, this)
+) = ThunkSuspendableTester(defaultScope(state, context), this)
 
 fun <State> Thunk.Executable<State>.test(
     state: State,
     context: DispatchContext = EmptyDispatchContext,
-    scope: TestDispatchScope<State> = DefaultTestDispatchScope(state, context),
     checks: ActionsAssertScope.() -> Unit,
-) = ThunkExecutableTester(scope, this).test(checks = checks)
+) = ThunkExecutableTester(defaultScope(state, context), this).test(checks = checks)
 
 suspend fun <State> Thunk.Suspendable<State>.test(
     state: State,
     context: DispatchContext = EmptyDispatchContext,
-    scope: TestDispatchScope<State> = DefaultTestDispatchScope(state, context),
     checks: ActionsAssertScope.() -> Unit,
-) = ThunkSuspendableTester(scope, this).test(checks = checks)
+) = ThunkSuspendableTester(defaultScope(state, context), this).test(checks = checks)
 
 @ExperimentalCoroutinesApi
 fun <State> Thunk.Suspendable<State>.coroutineTest(
     state: State,
     context: DispatchContext = EmptyDispatchContext,
-    scope: TestDispatchScope<State> = DefaultTestDispatchScope(state, context),
     checks: ActionsAssertScope.() -> Unit,
-) = ThunkSuspendableTester(scope, this).coroutineTest(state, context, checks)
+) = ThunkSuspendableTester(defaultScope(state, context), this).coroutineTest(state, context, checks)
+
+private fun <State> defaultScope(state: State, context: DispatchContext) = DefaultTestDispatchScope(state, context)
