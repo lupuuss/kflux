@@ -19,16 +19,21 @@ data class BookCollectionNorm(
     val bookIds: List<String>
 )
 
-object BookCollectionDescriptor : EntityDescriptor<AppState, String, BookCollection, BookCollectionNorm> {
-    override val dependencies = listOf(Dependency(BookDescriptor, BookCollection::books))
+interface BookCollectionDescriptor : EntityDescriptor<AppState, String, BookCollection, BookCollectionNorm> {
 
-    override fun BookCollection.normalize() = BookCollectionNorm(id, name, books.map(Book::id))
+    class Instance(private val bookDescriptor: BookDescriptor = BookDescriptor) : BookCollectionDescriptor {
+        override val dependencies = listOf(Dependency(bookDescriptor, BookCollection::books))
 
-    override fun BookCollectionNorm.denormalize(state: AppState) = BookCollection(id, name, BookDescriptor.resolve(state, bookIds))
+        override fun BookCollection.normalize() = BookCollectionNorm(id, name, books.map(Book::id))
 
-    override fun AppState.getNorm(id: String) = collections[id]
+        override fun BookCollectionNorm.denormalize(state: AppState) = BookCollection(id, name, bookDescriptor.resolve(state, bookIds))
 
-    override fun AppState.getAllNorms() = collections.values.toList()
+        override fun AppState.getNorm(id: String) = collections[id]
 
-    override fun storeNormalized(entities: List<BookCollectionNorm>) = BookCollectionStateAction.Store(entities)
+        override fun AppState.getAllNorms() = collections.values.toList()
+
+        override fun storeNormalized(entities: List<BookCollectionNorm>) = BookCollectionStateAction.Store(entities)
+    }
+
+    companion object : BookCollectionDescriptor by Instance()
 }

@@ -9,11 +9,13 @@ data class Chapter(
     val title: String
 )
 
-object ChapterDescriptor : PureEntityDescriptor<AppState, String, Chapter> {
-    override fun storeNormalized(entities: List<Chapter>): Action = ChapterStateAction.Store(entities)
+interface ChapterDescriptor : PureEntityDescriptor<AppState, String, Chapter> {
 
-    override fun AppState.getNorm(id: String): Chapter? = chapters[id]
+    companion object : ChapterDescriptor {
+        override fun storeNormalized(entities: List<Chapter>): Action = ChapterStateAction.Store(entities)
 
-    override fun AppState.getAllNorms(): List<Chapter> = chapters.values.toList()
+        override fun AppState.getNorm(id: String): Chapter? = chapters[id]
 
+        override fun AppState.getAllNorms(): List<Chapter> = chapters.values.toList()
+    }
 }

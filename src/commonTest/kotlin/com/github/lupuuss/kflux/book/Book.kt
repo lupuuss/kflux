@@ -18,17 +18,22 @@ data class BookNorm(
     val chapterIds: List<String>
 )
 
-object BookDescriptor : EntityDescriptor<AppState, String, Book, BookNorm> {
+interface BookDescriptor : EntityDescriptor<AppState, String, Book, BookNorm> {
 
-    override val dependencies = listOf(Dependency(ChapterDescriptor, Book::chapters))
+    class Instance(private val chapterDescriptor: ChapterDescriptor = ChapterDescriptor) : BookDescriptor {
 
-    override fun Book.normalize() = BookNorm(id, title, chapters.map(Chapter::id))
+        override val dependencies = listOf(Dependency(chapterDescriptor, Book::chapters))
 
-    override fun BookNorm.denormalize(state: AppState) = Book(id, title, ChapterDescriptor.resolve(state, chapterIds))
+        override fun Book.normalize() = BookNorm(id, title, chapters.map(Chapter::id))
 
-    override fun AppState.getNorm(id: String) = books[id]
+        override fun BookNorm.denormalize(state: AppState) = Book(id, title, chapterDescriptor.resolve(state, chapterIds))
 
-    override fun AppState.getAllNorms() = books.values.toList()
+        override fun AppState.getNorm(id: String) = books[id]
 
-    override fun storeNormalized(entities: List<BookNorm>) = BookStateAction.Store(entities)
+        override fun AppState.getAllNorms() = books.values.toList()
+
+        override fun storeNormalized(entities: List<BookNorm>) = BookStateAction.Store(entities)
+    }
+
+    companion object : BookDescriptor by Instance()
 }
