@@ -19,7 +19,8 @@ private fun customMiddleware() = Middleware<AppState> { action ->
             pass()
         }
         is CustomAction.C -> {
-            println("CONSUME: $action")
+            println(state)
+            dispatch(CustomAction.B)
             consume()
         }
         else -> pass()

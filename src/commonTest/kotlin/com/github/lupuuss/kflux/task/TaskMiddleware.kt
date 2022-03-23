@@ -14,7 +14,7 @@ fun taskMiddleware(dateProvider: DateProvider) = consumingMiddleware<AppState, T
         }
         is TaskAction.Load -> {
             val tasks = listOf(
-                Task("1", "Task 1", false, LocalDateTime(2021, 1, 1, 1, 1)),
+                Task("1", "Task 1", false, LocalDateTime(2021, 1, 1, 21, 37)),
                 Task("2", "Task 2", false, LocalDateTime(2021, 1, 1, 1, 1)),
                 Task("3", "Task 3", false, LocalDateTime(2021, 1, 1, 1, 1)),
             )
