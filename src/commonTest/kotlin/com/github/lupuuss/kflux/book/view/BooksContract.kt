@@ -7,6 +7,8 @@ interface BooksContract {
 
     interface ViewModel {
         val books: StateFlow<List<BookItem>>
+
+        fun navigateToBook(item: BookItem)
     }
 
     data class BookItem(

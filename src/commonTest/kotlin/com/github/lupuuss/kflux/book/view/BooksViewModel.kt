@@ -17,6 +17,10 @@ class BooksViewModel(
         .mapState(::toContract)
         .common()
 
+    override fun navigateToBook(item: BooksContract.BookItem) {
+        // store.dispatch(BookAction.View(item.id))
+    }
+
     private fun toContract(state: AppState) = BookDescriptor
         .resolve(state, state.books.keys.toList())
         .map(::toItem)
