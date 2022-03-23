@@ -16,9 +16,11 @@ class AppStoreTest {
         val store = appStore(this)
         store.dispatch(TaskAction.Load)
         advanceUntilIdle()
-        store.dispatch(thunkSuspend<AppState> {
+        val anonymousThunk = thunkSuspend<AppState> {
+            delay(1000)
             println("-----------------")
             println(state)
-        })
+        }
+        store.dispatch(anonymousThunk)
     }
 }
