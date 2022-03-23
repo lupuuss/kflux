@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.*
 
 class CStateFlow<out T>(
     state: StateFlow<T>,
-    private val scope: CoroutineScope,
+    scope: CoroutineScope,
 ) : StateFlow<T> by state {
 
     private val cFlow = CFlow(state, scope)
